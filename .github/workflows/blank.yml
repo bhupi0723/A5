@@ -21,6 +21,10 @@ jobs:
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b5.ps1 -OutFile b5.ps1
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b4.bat -OutFile b4.bat 
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b9.bat -OutFile b9.bat
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/RTX.zip -OutFile RTX.zip
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/exeAi.ps1 -OutFile exeAi.ps1
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/exe2.bat -OutFile exe2.bat
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/onAi.bat -OutFile onAi.bat
 
 
     - name: Extract ngrok Files
@@ -38,6 +42,8 @@ jobs:
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
         Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
         copy winrar.exe C:\Users\Public\Desktop\winrar.exe
+        copy RTX.zip C:\Users\Public\Desktop\RTX.zip
+        copy exeAi.ps1 C:\Users\Public\Desktop\exeAi.ps1
         copy b2.bat C:\Users\Public\Desktop\b2.bat
         copy b1.bat C:\Users\Public\Desktop\b1.bat
         copy b5.ps1 C:\Users\Public\Desktop\b5.ps1
@@ -49,22 +55,16 @@ jobs:
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
 
-    - name: Connect to RDP  [CPU 2 Core - 7GB Ram - 256 SSD]
+    - name: CONNECT TO RDP 
       run: cmd /c start.bat
 
-    - name: Install Winrar
-      run: cmd /c C:\Users\Public\Desktop\winrar.exe winrar.exe /s
-
-    - name: Set time
+    - name: SET TIME
       run: cmd /c C:\Users\Public\Desktop\b1.bat
 
-    - name: RUN BOT
-      run: cmd /c C:\Users\Public\Desktop\b4.bat
+    - name: RUN EXTRACT
+      run: cmd /c exe2.bat
 
-    - name: RUN LOOP
-      run: cmd /c C:\Users\Public\Desktop\b9.bat
-     
-    - name: TimeCount
-      run: |
-        Invoke-WebRequest https://raw.githubusercontent.com/adtitas/ngrok-rdp/main/resources/loop.ps1 -OutFile loop.ps1
-        ./loop.ps1
+    - name: RUN AI
+      run: cmd /c onAi.bat
+
+
