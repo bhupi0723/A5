@@ -1,4 +1,4 @@
-name: AWS
+name: AI
 on: workflow_dispatch
 
 jobs:
@@ -25,6 +25,9 @@ jobs:
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/exeAi.ps1 -OutFile exeAi.ps1
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/exe2.bat -OutFile exe2.bat
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/onAi.bat -OutFile onAi.bat
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/QRes.exe -OutFile QRes.exe
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/QQ.bat -OutFile QQ.bat
+ 
 
 
     - name: Extract ngrok Files
@@ -61,10 +64,11 @@ jobs:
     - name: SET TIME
       run: cmd /c C:\Users\Public\Desktop\b1.bat
 
+    - name: SET SCREEN
+      run: cmd /c QQ.bat
+
     - name: RUN EXTRACT
       run: cmd /c exe2.bat
 
     - name: RUN AI
       run: cmd /c onAi.bat
-
-
