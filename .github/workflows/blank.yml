@@ -9,15 +9,12 @@ jobs:
 
     steps:
 
-    - name: Download ngrok
+    - name: COPY AI DATA
       run: |
-        Invoke-WebRequest https://raw.githubusercontent.com/kaalmous/ngrok-rdp/kaal/resources/ngrok.zip -OutFile ngrok.zip
-        Invoke-WebRequest https://raw.githubusercontent.com/kaalmous/ngrok-rdp/kaal/resources/start.bat -OutFile start.bat
-        Invoke-WebRequest https://raw.githubusercontent.com/kaalmous/ngrok-rdp/kaal/resources/winrar.exe -OutFile winrar.exe
+     
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/start.bat -OutFile start.bat       
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b1.bat -OutFile b1.bat
-        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b2.bat -OutFile b2.bat
-        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/WebDriver.dll -OutFile WebDriver.dll
-        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/chromedriver.exe -OutFile chromedriver.exe
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b2.bat -OutFile b2.bat      
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b5.ps1 -OutFile b5.ps1
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b4.bat -OutFile b4.bat 
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/b9.bat -OutFile b9.bat
@@ -27,40 +24,28 @@ jobs:
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/onAi.bat -OutFile onAi.bat
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/QRes.exe -OutFile QRes.exe
         Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/QQ.bat -OutFile QQ.bat
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/waitt.bat -OutFile waitt.bat    
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/wait.ps1 -OutFile wait.ps1  
+        Invoke-WebRequest https://github.com/bhupi0723/data/releases/download/rdp/key.bat -OutFile key.bat         
+
  
 
-
-    - name: Extract ngrok Files
-      run: Expand-Archive ngrok.zip
-
-    - name: Connecting ngrok Account
-      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-
-    - name: Enable RDP Access
+    - name: RUN SERVER
       run: |
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
-        copy winrar.exe C:\Users\Public\Desktop\winrar.exe
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)        
         copy RTX.zip C:\Users\Public\Desktop\RTX.zip
         copy exeAi.ps1 C:\Users\Public\Desktop\exeAi.ps1
         copy b2.bat C:\Users\Public\Desktop\b2.bat
         copy b1.bat C:\Users\Public\Desktop\b1.bat
         copy b5.ps1 C:\Users\Public\Desktop\b5.ps1
         copy b4.bat C:\Users\Public\Desktop\b4.bat
-        copy b9.bat C:\Users\Public\Desktop\b9.bat
-        copy WebDriver.dll C:\Users\Public\Desktop\WebDriver.dll
-        copy chromedriver.exe C:\Users\Public\Desktop\chromedriver.exe
+        copy b9.bat C:\Users\Public\Desktop\b9.bat 
+        copy waitt.bat C:\Users\Public\Desktop\waitt.bat
+        copy wait.ps1 C:\Users\Public\Desktop\wait.ps1
        
-    - name: Create Tunnel
-      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
-
-    - name: CONNECT TO RDP 
-      run: cmd /c start.bat
-
     - name: SET TIME
       run: cmd /c C:\Users\Public\Desktop\b1.bat
 
@@ -69,6 +54,6 @@ jobs:
 
     - name: RUN EXTRACT
       run: cmd /c exe2.bat
-
+       
     - name: RUN AI
-      run: cmd /c onAi.bat
+      run: cmd /c onAi.bat  
